@@ -1,7 +1,6 @@
 ﻿// Program.cs
 
 using System.Reflection;
-using System.Text.Json;
 using System.Text.Json.Nodes;
 
 Console.WriteLine($"Sha: {GitVersionInfo.Sha}");
@@ -43,7 +42,7 @@ public static class GitVersionInfo
     public static int UncommittedChanges => GetJsonProperty<int>("UncommittedChanges");
     public static string CommitDate => GetJsonProperty<string>("CommitDate");
     public static JsonNode? Json { get; } =
-        JsonSerializer.Deserialize<JsonNode>((Assembly.GetExecutingAssembly()
+        JsonNode.Parse((Assembly.GetExecutingAssembly()
             .GetCustomAttributes(typeof(AssemblyMetadataAttribute), false)
             .Select(a => a as AssemblyMetadataAttribute)
             .Where(ma => ma is not null && ma.Key.StartsWith("GitVersionInformation"))
@@ -53,6 +52,7 @@ public static class GitVersionInfo
     public static T GetJsonProperty<T>(string key, T defaultValue = default(T))
         => Json is JsonObject obj
             && obj.TryGetPropertyValue(key, out var value)
+            && value is not null
             && value.GetValue<T>() is T v
             ? v
             : defaultValue;
