@@ -22,45 +22,9 @@
       <Output TaskParameter="Lines" PropertyName="GitVersionInformation" />
     </ReadLinesFromFile>
     <ItemGroup>
-      <NumberVersions Include="Major" />
-      <NumberVersions Include="Minor" />
-      <NumberVersions Include="Patch" />
-      <NumberVersions Include="BuildMetaData" />
-      <NumberVersions Include="CommitsSinceVersionSource" />
-      <NumberVersions Include="UncommittedChanges" />
-      <StringVersions Include="PreReleaseTag" />
-      <StringVersions Include="PreReleaseTagWithDash" />
-      <StringVersions Include="PreReleaseLabel" />
-      <StringVersions Include="PreReleaseLabelWithDash" />
-      <StringVersions Include="PreReleaseNumber" />
-      <StringVersions Include="BuildMetaDataPadded" />
-      <StringVersions Include="FullBuildMetaData" />
-      <StringVersions Include="MajorMinorPatch" />
-      <StringVersions Include="SemVer" />
-      <StringVersions Include="LegacySemVer" />
-      <StringVersions Include="LegacySemVerPadded" />
-      <StringVersions Include="AssemblySemVer" />
-      <StringVersions Include="AssemblySemFileVer" />
-      <StringVersions Include="FullSemVer" />
-      <StringVersions Include="InformationalVersion" />
-      <StringVersions Include="BranchName" />
-      <StringVersions Include="EscapedBranchName" />
-      <StringVersions Include="Sha" />
-      <StringVersions Include="ShortSha" />
-      <StringVersions Include="NuGetVersionV2" />
-      <StringVersions Include="NuGetVersion" />
-      <StringVersions Include="NuGetPreReleaseTagV2" />
-      <StringVersions Include="NuGetPreReleaseTag" />
-      <StringVersions Include="VersionSourceSha" />
-      <StringVersions Include="CommitsSinceVersionSourcePadded" />
-      <StringVersions Include="CommitDate" />
       <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
-        <_Parameter1>GitVersion.%(NumberVersions.Identity)</_Parameter1>
-        <_Parameter2>$([System.Text.RegularExpressions.Regex]::Match('$(GitVersionInformation)', '"%(NumberVersions.Identity)":\s*(\d+)').Groups[1].Value)</_Parameter2>
-      </AssemblyAttribute>
-      <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
-        <_Parameter1>GitVersion.%(StringVersions.Identity)</_Parameter1>
-        <_Parameter2>$([System.Text.RegularExpressions.Regex]::Match('$(GitVersionInformation)', '"%(StringVersions.Identity)":\s*(?:"([^"]+)")').Groups[1].Value)</_Parameter2>
+        <_Parameter1>GitVersionInformation</_Parameter1>
+        <_Parameter2>$(GitVersionInformation)</_Parameter2>
       </AssemblyAttribute>
     </ItemGroup>
   </Target>
