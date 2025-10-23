@@ -9,13 +9,13 @@ GitVersion automates semantic versioning based on your Git history. This sample 
 ## How It Works
 
  - The project uses the `GitVersion.MsBuild` NuGet package.
- - The `.csproj` file includes a custom MSBuild target (`AlternateGetVersion`) to generate version info using `dotnet gitversion`.
+ - The `.csproj` file includes a custom MSBuild target (`GetVersionForVisualStudio`) to generate version info using `dotnet gitversion`.
  - Version metadata is injected into the assembly and accessed at runtime.
 
 ## Files of Interest
 
- - `GitVersionTest.csproj` : MSBuild configuration andGitVersion integration.
- - `Progam.cs` : Example code showing how to read GitVersion metadata from the assembly at runtime.
+ - `GitVersionTest.csproj` : MSBuild configuration and GitVersion integration.
+ - `Program.cs` : Example code showing how to read GitVersion metadata from the assembly at runtime.
 
 ## References
 
