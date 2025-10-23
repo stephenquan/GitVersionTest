@@ -1,6 +1,6 @@
 # GitVersionTest
 
-This project demonstrates a workaround to enable [GitVersion.MsBuild](https://www.nuget.org/packages/GitVersion.MsBuild) 6.x integration with Visual Studio, specifically for projects.
+This project demonstrates a workaround to enable [GitVersion.MsBuild](https://www.nuget.org/packages/GitVersion.MsBuild) 6.x integration for projects running in the Visual Studio IDE.
 
 ## Overview
 
