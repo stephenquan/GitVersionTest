@@ -1,0 +1,70 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GitVersion.MsBuild" Version="6.4.0">
+    <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <!--#region Enables GitVersion to work with Visual Studio-->
+
+  <Target Name="GetVersionForVisualStudio" AfterTargets="GetVersion">
+    <Exec Command="dotnet gitversion -output file -outputfile $(ProjectDir)\$(GitVersionOutputFile)" />
+    <ReadLinesFromFile File="$(ProjectDir)\$(GitVersionOutputFile)">
+      <Output TaskParameter="Lines" PropertyName="GitVersionInformation" />
+    </ReadLinesFromFile>
+    <ItemGroup>
+      <NumberVersions Include="Major" />
+      <NumberVersions Include="Minor" />
+      <NumberVersions Include="Patch" />
+      <NumberVersions Include="BuildMetaData" />
+      <NumberVersions Include="CommitsSinceVersionSource" />
+      <NumberVersions Include="UncommittedChanges" />
+      <StringVersions Include="PreReleaseTag" />
+      <StringVersions Include="PreReleaseTagWithDash" />
+      <StringVersions Include="PreReleaseLabel" />
+      <StringVersions Include="PreReleaseLabelWithDash" />
+      <StringVersions Include="PreReleaseNumber" />
+      <StringVersions Include="BuildMetaDataPadded" />
+      <StringVersions Include="FullBuildMetaData" />
+      <StringVersions Include="MajorMinorPatch" />
+      <StringVersions Include="SemVer" />
+      <StringVersions Include="LegacySemVer" />
+      <StringVersions Include="LegacySemVerPadded" />
+      <StringVersions Include="AssemblySemVer" />
+      <StringVersions Include="AssemblySemFileVer" />
+      <StringVersions Include="FullSemVer" />
+      <StringVersions Include="InformationalVersion" />
+      <StringVersions Include="BranchName" />
+      <StringVersions Include="EscapedBranchName" />
+      <StringVersions Include="Sha" />
+      <StringVersions Include="ShortSha" />
+      <StringVersions Include="NuGetVersionV2" />
+      <StringVersions Include="NuGetVersion" />
+      <StringVersions Include="NuGetPreReleaseTagV2" />
+      <StringVersions Include="NuGetPreReleaseTag" />
+      <StringVersions Include="VersionSourceSha" />
+      <StringVersions Include="CommitsSinceVersionSourcePadded" />
+      <StringVersions Include="CommitDate" />
+      <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+        <_Parameter1>GitVersion.%(NumberVersions.Identity)</_Parameter1>
+        <_Parameter2>$([System.Text.RegularExpressions.Regex]::Match('$(GitVersionInformation)', '"%(NumberVersions.Identity)":\s*(\d+)').Groups[1].Value)</_Parameter2>
+      </AssemblyAttribute>
+      <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+        <_Parameter1>GitVersion.%(StringVersions.Identity)</_Parameter1>
+        <_Parameter2>$([System.Text.RegularExpressions.Regex]::Match('$(GitVersionInformation)', '"%(StringVersions.Identity)":\s*(?:"([^"]+)")').Groups[1].Value)</_Parameter2>
+      </AssemblyAttribute>
+    </ItemGroup>
+  </Target>
+
+  <!--#endregion-->
+
+</Project>
