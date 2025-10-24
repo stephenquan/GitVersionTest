@@ -41,14 +41,18 @@ public static class GitVersionInfo
     public static string CommitsSinceVersionSourcePadded => GetJsonProperty<string>("CommitsSinceVersionSourcePadded");
     public static int UncommittedChanges => GetJsonProperty<int>("UncommittedChanges");
     public static string CommitDate => GetJsonProperty<string>("CommitDate");
-    public static JsonNode? Json { get; } =
-        JsonNode.Parse((Assembly.GetExecutingAssembly()
-            .GetCustomAttributes(typeof(AssemblyMetadataAttribute), false)
+    public static JsonNode? Json { get; }
+        = (Assembly.GetExecutingAssembly() is Assembly assembly
+            && assembly.GetCustomAttributes(typeof(AssemblyMetadataAttribute), false)
             .Select(a => a as AssemblyMetadataAttribute)
             .Where(ma => ma is not null && ma.Key.StartsWith("GitVersionInformation"))
-            .FirstOrDefault()
-            ?.Value ?? "")
-            .Replace(";", ""));
+            .FirstOrDefault() is AssemblyMetadataAttribute attribute
+            && attribute.Value is string text
+            && !string.IsNullOrEmpty(text)
+            && JsonNode.Parse(text.Replace(";", "")) is JsonNode json)
+            ? json
+            : null;
+
     public static T GetJsonProperty<T>(string key, T defaultValue = default(T))
         => Json is JsonObject obj
             && obj.TryGetPropertyValue(key, out var value)
